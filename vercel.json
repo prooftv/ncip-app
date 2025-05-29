@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/service-worker.js",
+      "dest": "/_next/static/service-worker.js",
+      "headers": {
+        "Service-Worker-Allowed": "/"
+      }
+    }
+  ]
+}
