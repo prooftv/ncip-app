@@ -3,42 +3,20 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@lib/firebase/config'
+import { auth, FirebaseError } from '@lib/firebase/config' // Updated import
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaChild } from 'react-icons/fa'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('info@unamifoundation.org')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const validateForm = () => {
-    let isValid = true
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address')
-      isValid = false
-    }
-    
-    // Password validation
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters')
-      isValid = false
-    }
-    
-    return isValid
-  }
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    
-    if (!validateForm()) return
-    
     setIsLoading(true)
     
     try {
@@ -49,9 +27,30 @@ export default function LoginPage() {
       document.cookie = `session=${token}; path=/; secure; sameSite=lax`
       
       router.push('/dashboard')
-    } catch (err: any) {
-      console.error(err)
-      setError('Invalid email or password')
+    } catch (err) {
+      console.error('Login error:', err)
+      const firebaseError = err as FirebaseError
+      
+      // Handle specific Firebase errors
+      switch (firebaseError.code) {
+        case 'auth/invalid-email':
+          setError('Invalid email address')
+          break
+        case 'auth/user-disabled':
+          setError('This account has been disabled')
+          break
+        case 'auth/user-not-found':
+          setError('No account found with this email')
+          break
+        case 'auth/wrong-password':
+          setError('Incorrect password')
+          break
+        case 'auth/configuration-not-found':
+          setError('System configuration error. Please contact support.')
+          break
+        default:
+          setError('Login failed. Please try again.')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -279,7 +278,7 @@ export default function LoginPage() {
               Forgot password?
             </a>
             <p style={{ marginTop: '12px' }}>
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <a href="#" style={{
                 color: '#4299e1',
                 fontWeight: '500',
