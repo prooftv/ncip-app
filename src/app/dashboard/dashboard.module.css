@@ -1,3 +1,292 @@
+.container {
+  min-height: 100vh;
+  background-color: #F8FAFC;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  background: linear-gradient(to right, #1a365d, #2c5282);
+  color: white;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoIcon {
+  background-color: white;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 15px;
+}
+
+.logoChildIcon {
+  color: #1a365d;
+  font-size: 28px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.notificationButton {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.bellIcon {
+  font-size: 20px;
+  color: white;
+}
+
+.welcomeBanner {
+  background-color: white;
+  padding: 24px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.welcomeContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcomeHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.userIcon {
+  font-size: 20px;
+  color: #4A5568;
+  margin-right: 12px;
+}
+
+.welcomeTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2D3748;
+}
+
+.welcomeSubtitle {
+  color: #718096;
+  font-size: 16px;
+  margin-left: 32px;
+}
+
+.section {
+  padding: 24px 20px;
+}
+
+.sectionContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #E2E8F0;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.actionCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.actionIconBlue {
+  background-color: #EBF8FF;
+}
+
+.actionIconGreen {
+  background-color: #F0FFF4;
+}
+
+.actionIconOrange {
+  background-color: #FFFAF0;
+}
+
+.actionIconPurple {
+  background-color: #FAF5FF;
+}
+
+.actionIconBlue,
+.actionIconGreen,
+.actionIconOrange,
+.actionIconPurple {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.actionIcon {
+  font-size: 28px;
+}
+
+.actionIconBlue .actionIcon {
+  color: #3182CE;
+}
+
+.actionIconGreen .actionIcon {
+  color: #38A169;
+}
+
+.actionIconOrange .actionIcon {
+  color: #DD6B20;
+}
+
+.actionIconPurple .actionIcon {
+  color: #9F7AEA;
+}
+
+.actionTitle {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 8px;
+}
+
+.actionDescription {
+  text-align: center;
+  font-size: 14px;
+  color: #718096;
+}
+
+.childrenSection {
+  background-color: #F8FAFC;
+}
+
+.childrenContainer {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.childCard {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #EDF2F7;
+}
+
+.childIcon {
+  width: 64px;
+  height: 64px;
+  background-color: #EBF8FF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.childIconImage {
+  font-size: 28px;
+  color: #3182CE;
+}
+
+.childName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 4px;
+}
+
+.childInfo {
+  font-size: 14px;
+  color: #718096;
+}
+
+.addChildContainer {
+  padding: 20px;
+  text-align: center;
+  background-color: #F8FAFC;
+}
+
+.addChildButton {
+  display: inline-flex;
+  align-items: center;
+  color: #3182CE;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.plusIcon {
+  margin-right: 8px;
+}
+
+.emergencyContainer {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.emergencyTitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.emergencyDescription {
+  font-size: 16px;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.emergencyActionButton {
+  background-color: white;
+  color: #E53E3E;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effects */
 .quickActionCard {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
