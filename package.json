@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && echo 'Build version: 1748604255'",
     "start": "next start",
     "lint": "next lint",
     "check-env": "node scripts/check-env.js"

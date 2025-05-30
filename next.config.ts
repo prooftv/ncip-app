@@ -1,17 +1,14 @@
 import type { NextConfig } from 'next';
 
-// Regular Next.js configuration
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['firebasestorage.googleapis.com'],
   },
   eslint: {
-    // Disable linting during build
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Disable TypeScript errors during build
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
@@ -27,15 +24,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-// Conditionally apply PWA in production
-if (process.env.NODE_ENV === 'production') {
-  const withPWA = require('next-pwa')({
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-    disable: false,
-  });
-  module.exports = withPWA(nextConfig);
-} else {
-  module.exports = nextConfig;
-}
+export default nextConfig;
