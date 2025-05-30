@@ -1,15 +1,15 @@
-import { get, set, del, createStore } from 'idb-keyval'
+import idb from 'idb-keyval';
 
-const customStore = createStore('ncip-db', 'offline-store')
+const customStore = idb.createStore('ncip-db', 'offline-store');
 
 export const saveOfflineData = async (key: string, data: unknown) => {
-  await set(key, data, customStore)
-}
+  await idb.set(key, data, customStore);
+};
 
 export const getOfflineData = async <T>(key: string): Promise<T | undefined> => {
-  return await get<T>(key, customStore)
-}
+  return idb.get<T>(key, customStore);
+};
 
-export const deleteOfflineData = async (key: string) => {
-  await del(key, customStore)
-}
+export const removeOfflineData = async (key: string) => {
+  await idb.del(key, customStore);
+};
