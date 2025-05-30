@@ -36,3 +36,7 @@ if (process.env.NODE_ENV === 'development') {
     apiKey: firebaseConfig.apiKey ? '*****' : 'MISSING',
   });
 }
+import { getMessaging } from 'firebase/messaging';
+
+// Add to firebase exports
+export const messaging = getMessaging(app);
