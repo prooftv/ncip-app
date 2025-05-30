@@ -2,19 +2,99 @@
 
 import { useAuth } from '@features/auth/context'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FaChild, FaBell, FaMapMarkerAlt, FaShieldAlt, FaPlus, FaUser } from 'react-icons/fa'
 import styles from './dashboard.module.css'
+import { getMessaging, getToken } from 'firebase/messaging'
+import { db } from '@lib/firebase/config'
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
+import { triggerEmergency } from '@features/emergency/api/emergencyService'
 
 export default function DashboardPage() {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const [childId, setChildId] = useState('')
+  const [testStatus, setTestStatus] = useState('')
+  const [children, setChildren] = useState<any[]>([]) // Simplified for demo
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login')
     }
+    
+    if (user) {
+      requestNotificationPermission()
+      // In a real app, you would load the user's children here
+      setChildren([
+        { id: 'child1', name: 'Sarah Johnson', age: 8, lastSeen: 'School' },
+        { id: 'child2', name: 'Michael Johnson', age: 5, lastSeen: 'Home' }
+      ])
+    }
   }, [user, loading, router])
+
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission()
+      if (permission === 'granted') {
+        console.log('Notification permission granted')
+        await saveFCMToken()
+      }
+    } catch (error) {
+      console.error('Failed to request notification permission:', error)
+    }
+  }
+
+  const saveFCMToken = async () => {
+    if (!user) return
+    
+    try {
+      const messaging = getMessaging()
+      const token = await getToken(messaging, {
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
+      })
+      
+      if (token) {
+        // Check if token already exists
+        const tokensRef = collection(db, 'fcmTokens')
+        const q = query(
+          tokensRef, 
+          where('userId', '==', user.uid),
+          where('token', '==', token)
+        )
+        const snapshot = await getDocs(q)
+        
+        if (snapshot.empty) {
+          await addDoc(tokensRef, {
+            userId: user.uid,
+            token,
+            createdAt: new Date()
+          })
+          console.log('FCM token saved to Firestore')
+        }
+      }
+    } catch (error) {
+      console.error('Failed to save FCM token:', error)
+    }
+  }
+
+  const handleEmergencyTest = async () => {
+    if (!childId) {
+      setTestStatus('Please select a child first')
+      return
+    }
+    
+    try {
+      setTestStatus('Triggering emergency...')
+      await triggerEmergency(childId)
+      setTestStatus('Emergency alert sent successfully!')
+      
+      // Clear status after 5 seconds
+      setTimeout(() => setTestStatus(''), 5000)
+    } catch (error) {
+      setTestStatus(`Emergency test failed: ${error.message}`)
+      console.error(error)
+    }
+  }
 
   if (loading) {
     return (
@@ -132,27 +212,26 @@ export default function DashboardPage() {
           <h3 className={styles.sectionTitle}>Your Children</h3>
           
           <div className={styles.childrenContainer}>
-            {/* Child 1 */}
-            <div className={styles.childCard}>
-              <div className={styles.childIcon}>
-                <FaChild className={styles.childIconImage} />
+            {children.map(child => (
+              <div 
+                key={child.id} 
+                className={styles.childCard}
+                onClick={() => setChildId(child.id)}
+                style={{ 
+                  border: childId === child.id 
+                    ? '2px solid #3182ce' 
+                    : '1px solid #e2e8f0' 
+                }}
+              >
+                <div className={styles.childIcon}>
+                  <FaChild className={styles.childIconImage} />
+                </div>
+                <div>
+                  <h4 className={styles.childName}>{child.name}</h4>
+                  <p className={styles.childInfo}>Age {child.age} • Last seen: {child.lastSeen}</p>
+                </div>
               </div>
-              <div>
-                <h4 className={styles.childName}>Sarah Johnson</h4>
-                <p className={styles.childInfo}>Age 8 • Last seen: School</p>
-              </div>
-            </div>
-            
-            {/* Child 2 */}
-            <div className={styles.childCard}>
-              <div className={styles.childIcon}>
-                <FaChild className={styles.childIconImage} />
-              </div>
-              <div>
-                <h4 className={styles.childName}>Michael Johnson</h4>
-                <p className={styles.childInfo}>Age 5 • Last seen: Home</p>
-              </div>
-            </div>
+            ))}
             
             {/* Add Child Button */}
             <div className={styles.addChildContainer}>
@@ -175,9 +254,35 @@ export default function DashboardPage() {
             <p className={styles.emergencyDescription}>
               Immediately alert authorities and community members
             </p>
-            <button className={`${styles.emergencyButton} ${styles.emergencyActionButton}`}>
-              Activate Emergency Alert
-            </button>
+            
+            <div className={styles.emergencyTestContainer}>
+              <div className={styles.childSelection}>
+                <p className={styles.testLabel}>Test with selected child:</p>
+                {childId ? (
+                  <div className={styles.selectedChild}>
+                    {children.find(c => c.id === childId)?.name || 'Unknown child'}
+                  </div>
+                ) : (
+                  <p className={styles.noSelection}>No child selected</p>
+                )}
+              </div>
+              
+              <button 
+                onClick={handleEmergencyTest}
+                className={`${styles.emergencyButton} ${styles.emergencyActionButton}`}
+                disabled={!childId}
+              >
+                Test Emergency Alert
+              </button>
+              
+              {testStatus && (
+                <div className={`${styles.testStatus} ${
+                  testStatus.includes('failed') ? styles.error : styles.success
+                }`}>
+                  {testStatus}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

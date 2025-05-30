@@ -40,3 +40,7 @@ import { getMessaging } from 'firebase/messaging';
 
 // Add to firebase exports
 export const messaging = getMessaging(app);
+import { getMessaging } from 'firebase/messaging';
+
+// Initialize Firebase Messaging
+export const messaging = getMessaging(app);

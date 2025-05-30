@@ -305,3 +305,56 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25) !important;
 }
+
+/* Emergency test container */
+.emergencyTestContainer {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.childSelection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 10px;
+}
+
+.testLabel {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.selectedChild {
+  background: #2c5282;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.noSelection {
+  color: #e53e3e;
+  font-style: italic;
+}
+
+.testStatus {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.success {
+  background-color: rgba(72, 187, 120, 0.2);
+  color: #48bb78;
+  border: 1px solid #48bb78;
+}
+
+.error {
+  background-color: rgba(229, 62, 62, 0.2);
+  color: #e53e3e;
+  border: 1px solid #e53e3e;
+}
