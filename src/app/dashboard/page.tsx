@@ -55,6 +55,7 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.container}>
+      {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <div className={styles.logoContainer}>
@@ -69,6 +70,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
+      {/* Welcome Banner */}
       <div className={styles.welcomeBanner}>
         <div className={styles.welcomeContent}>
           <div className={styles.welcomeHeader}>
@@ -79,11 +81,13 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Quick Actions */}
       <div className={styles.section}>
         <div className={styles.sectionContent}>
           <h3 className={styles.sectionTitle}>Quick Actions</h3>
           
           <div className={styles.actionsGrid}>
+            {/* Add Child */}
             <div className={`${styles.quickActionCard} ${styles.actionCard}`}>
               <div className={styles.actionIconBlue}>
                 <FaChild className={styles.actionIcon} />
@@ -92,6 +96,7 @@ export default function DashboardPage() {
               <p className={styles.actionDescription}>Register a new child profile</p>
             </div>
             
+            {/* Safe Zones */}
             <div className={`${styles.quickActionCard} ${styles.actionCard}`}>
               <div className={styles.actionIconGreen}>
                 <FaMapMarkerAlt className={styles.actionIcon} />
@@ -100,6 +105,7 @@ export default function DashboardPage() {
               <p className={styles.actionDescription}>Set up geofenced areas</p>
             </div>
             
+            {/* Alerts */}
             <div className={`${styles.quickActionCard} ${styles.actionCard}`}>
               <div className={styles.actionIconOrange}>
                 <FaBell className={styles.actionIcon} />
@@ -108,6 +114,7 @@ export default function DashboardPage() {
               <p className={styles.actionDescription}>View recent notifications</p>
             </div>
             
+            {/* Security */}
             <div className={`${styles.quickActionCard} ${styles.actionCard}`}>
               <div className={styles.actionIconPurple}>
                 <FaShieldAlt className={styles.actionIcon} />
@@ -119,11 +126,13 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Your Children Section */}
       <div className={`${styles.section} ${styles.childrenSection}`}>
         <div className={styles.sectionContent}>
           <h3 className={styles.sectionTitle}>Your Children</h3>
           
           <div className={styles.childrenContainer}>
+            {/* Child 1 */}
             <div className={styles.childCard}>
               <div className={styles.childIcon}>
                 <FaChild className={styles.childIconImage} />
@@ -134,6 +143,7 @@ export default function DashboardPage() {
               </div>
             </div>
             
+            {/* Child 2 */}
             <div className={styles.childCard}>
               <div className={styles.childIcon}>
                 <FaChild className={styles.childIconImage} />
@@ -144,6 +154,7 @@ export default function DashboardPage() {
               </div>
             </div>
             
+            {/* Add Child Button */}
             <div className={styles.addChildContainer}>
               <button className={styles.addChildButton}>
                 <FaPlus className={styles.plusIcon} />
@@ -154,6 +165,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Emergency Section */}
       <div className={styles.section}>
         <div className={styles.sectionContent}>
           <h3 className={styles.sectionTitle}>Emergency Actions</h3>
