@@ -152,7 +152,7 @@ export default function DashboardPage() {
             gap: '20px'
           }}>
             {/* Add Child */}
-            <div className={styles.quickActionCard} style={{
+            <div style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px'
@@ -188,7 +188,7 @@ export default function DashboardPage() {
             </div>
             
             {/* Safe Zones */}
-            <div className={styles.quickActionCard} style={{
+            <div style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px'
@@ -224,7 +224,7 @@ export default function DashboardPage() {
             </div>
             
             {/* Alerts */}
-            <div className={styles.quickActionCard} style={{
+            <div style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px'
@@ -260,7 +260,7 @@ export default function DashboardPage() {
             </div>
             
             {/* Security */}
-            <div className={styles.quickActionCard} style={{
+            <div style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px'
@@ -451,7 +451,7 @@ export default function DashboardPage() {
             }}>
               Immediately alert authorities and community members
             </p>
-            <button className={styles.emergencyButton} style={{
+            <button style={{
               backgroundColor: 'white',
               color: '#E53E3E',
               fontWeight: '700',
