@@ -14,33 +14,25 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Verify configuration in development
-if (process.env.NODE_ENV === 'development') {
-  console.log('Firebase Config:', {
-    apiKey: firebaseConfig.apiKey ? '*****' : 'MISSING',
-    authDomain: firebaseConfig.authDomain ? '*****' : 'MISSING',
-    projectId: firebaseConfig.projectId ? '*****' : 'MISSING',
-    storageBucket: firebaseConfig.storageBucket ? '*****' : 'MISSING',
-    messagingSenderId: firebaseConfig.messagingSenderId ? '*****' : 'MISSING',
-    appId: firebaseConfig.appId ? '*****' : 'MISSING',
-    measurementId: firebaseConfig.measurementId ? '*****' : 'MISSING'
-  });
-}
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
-export { FirebaseError };  // Export error type
+export { FirebaseError };
 
-// Enable offline persistence
+// Enable offline persistence with error handling
 if (typeof window !== 'undefined') {
   enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code === 'failed-precondition') {
-      console.log('Offline persistence can only be enabled in one tab at a time.');
-    } else if (err.code === 'unimplemented') {
-      console.log('The current browser does not support offline persistence.');
-    }
+    console.warn('Offline persistence error:', err.code);
+  });
+}
+
+// Log configuration in development
+if (process.env.NODE_ENV === 'development') {
+  console.log('Firebase initialized with config:', {
+    ...firebaseConfig,
+    apiKey: firebaseConfig.apiKey ? '*****' : 'MISSING',
   });
 }

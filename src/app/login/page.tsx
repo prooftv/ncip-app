@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth, FirebaseError } from '@lib/firebase/config'
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaChild } from 'react-icons/fa'
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaChild, FaExclamationTriangle } from 'react-icons/fa'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('info@unamifoundation.org')
@@ -12,10 +12,31 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isOnline, setIsOnline] = useState(true)
   const router = useRouter()
+
+  // Check network status
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+    
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+    
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!isOnline) {
+      setError('You are offline. Please check your internet connection.')
+      return
+    }
+    
     setError('')
     setIsLoading(true)
     
@@ -48,8 +69,8 @@ export default function LoginPage() {
         case 'auth/network-request-failed':
           setError('Network error. Please check your internet connection and try again.')
           break
-        case 'auth/configuration-not-found':
-          setError('System configuration error. Please contact support.')
+        case 'auth/too-many-requests':
+          setError('Too many attempts. Please try again later.')
           break
         default:
           setError('Login failed. Please try again.')
@@ -82,8 +103,28 @@ export default function LoginPage() {
           background: 'linear-gradient(to right, #1a365d, #2c5282)',
           color: 'white',
           padding: '40px 20px',
-          textAlign: 'center'
+          textAlign: 'center',
+          position: 'relative'
         }}>
+          {!isOnline && (
+            <div style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              right: '10px',
+              backgroundColor: 'rgba(229, 62, 62, 0.9)',
+              borderRadius: '8px',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px'
+            }}>
+              <FaExclamationTriangle style={{ marginRight: '8px' }} />
+              You are currently offline
+            </div>
+          )}
+          
           <div style={{
             width: '80px',
             height: '80px',
@@ -110,8 +151,12 @@ export default function LoginPage() {
               backgroundColor: '#FFF5F5',
               color: '#E53E3E',
               borderRadius: '12px',
-              textAlign: 'center'
+              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}>
+              <FaExclamationTriangle style={{ marginRight: '8px' }} />
               {error}
             </div>
           )}
@@ -151,6 +196,7 @@ export default function LoginPage() {
                 }}
                 placeholder="Enter your email"
                 required
+                disabled={!isOnline}
               />
             </div>
           </div>
@@ -190,6 +236,7 @@ export default function LoginPage() {
                 }}
                 placeholder="Enter your password"
                 required
+                disabled={!isOnline}
               />
               <button
                 type="button"
@@ -205,6 +252,7 @@ export default function LoginPage() {
                   fontSize: '18px'
                 }}
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={!isOnline}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -227,9 +275,10 @@ export default function LoginPage() {
               boxShadow: '0 4px 10px rgba(26, 54, 93, 0.3)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              opacity: isOnline ? 1 : 0.7
             }}
-            disabled={isLoading}
+            disabled={isLoading || !isOnline}
           >
             {isLoading ? (
               <>
@@ -260,8 +309,10 @@ export default function LoginPage() {
                 </svg>
                 Logging in...
               </>
-            ) : (
+            ) : isOnline ? (
               "Login"
+            ) : (
+              "Offline - Cannot Login"
             )}
           </button>
           
