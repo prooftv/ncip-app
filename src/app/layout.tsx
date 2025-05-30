@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ClientRoot from './ClientRoot'
 
 export const metadata: Metadata = {
   title: 'NCIP Mobile App',
@@ -19,7 +20,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#1a365d" />
       </head>
       <body>
-        {children}
+        <ClientRoot>
+          {children}
+        </ClientRoot>
       </body>
     </html>
   )
