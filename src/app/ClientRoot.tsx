@@ -1,7 +1,11 @@
 'use client'
 
-import { AuthProvider } from '@features/auth/context'
+import { AuthProvider } from '@features/auth/context';
 
-export default function ClientRoot({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>
+interface ClientRootProps {
+  children: React.ReactNode;
+}
+
+export default function ClientRoot({ children }: ClientRootProps) {
+  return <AuthProvider>{children}</AuthProvider>;
 }

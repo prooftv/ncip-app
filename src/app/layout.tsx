@@ -1,29 +1,41 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import ClientRoot from './ClientRoot'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css'; // Ensure this import exists
+import ClientRoot from './ClientRoot';
+import { processPendingEmergencies } from '@lib/offline/emergencyQueue';
+import ServiceWorkerRegister from '@components/ServiceWorkerRegister';
+
+// Initialize emergency queue processing
+if (typeof window !== 'undefined') {
+  if (navigator.onLine) {
+    setTimeout(processPendingEmergencies, 5000);
+  }
+  
+  window.addEventListener('online', () => {
+    setTimeout(processPendingEmergencies, 3000);
+  });
+}
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NCIP Mobile App',
-  description: 'National Child Identification Program - Protecting Children, Empowering Communities',
-}
+  title: 'NCIP App',
+  description: 'National Child Identification Program',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1a365d" />
-      </head>
-      <body>
+      <body className={inter.className}>
         <ClientRoot>
+          <ServiceWorkerRegister />
           {children}
         </ClientRoot>
       </body>
     </html>
-  )
+  );
 }
