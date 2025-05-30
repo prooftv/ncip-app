@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { isMessagingSupported } from '@lib/browserSupport';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -24,12 +25,21 @@ if (typeof window !== 'undefined') {
 export const auth = getAuth(app);
 
 // Client-only messaging initialization
-export let messaging: any = null;
-if (typeof window !== 'undefined') {
-  import('firebase/messaging').then(({ getMessaging }) => {
-    messaging = getMessaging(app);
-  }).catch(console.error);
-}
+let messagingInstance: any = null;
+
+export const getMessagingInstance = async () => {
+  if (messagingInstance) return messagingInstance;
+  if (typeof window === 'undefined' || !isMessagingSupported()) return null;
+  
+  try {
+    const { getMessaging } = await import('firebase/messaging');
+    messagingInstance = getMessaging(app);
+    return messagingInstance;
+  } catch (error) {
+    console.error('Failed to initialize messaging:', error);
+    return null;
+  }
+};
 
 // Export config for service worker
 export const firebaseConfigForSw = firebaseConfig;

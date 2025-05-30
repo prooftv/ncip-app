@@ -1,19 +1,14 @@
 'use client'
 
-import { getMessaging, getToken, isSupported } from 'firebase/messaging';
-import { messaging } from './config';
+import { isMessagingSupported } from '@lib/browserSupport';
+import { getMessagingInstance } from './config';
 
-export const isMessagingSupported = async () => {
-  try {
-    return await isSupported();
-  } catch (error) {
-    console.error('Messaging support check failed:', error);
-    return false;
-  }
+export const canUseMessaging = () => {
+  return isMessagingSupported();
 };
 
 export const requestNotificationPermission = async () => {
-  if (!(await isMessagingSupported())) return false;
+  if (!canUseMessaging()) return false;
   
   try {
     const permission = await Notification.requestPermission();
@@ -25,13 +20,16 @@ export const requestNotificationPermission = async () => {
 };
 
 export const getFCMToken = async () => {
-  if (!(await isMessagingSupported())) return null;
+  if (!canUseMessaging()) return null;
   
   try {
-    const token = await getToken(messaging, {
+    const messaging = await getMessagingInstance();
+    if (!messaging) return null;
+    
+    const { getToken } = await import('firebase/messaging');
+    return await getToken(messaging, {
       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
     });
-    return token;
   } catch (error) {
     console.error('FCM token error:', error);
     return null;

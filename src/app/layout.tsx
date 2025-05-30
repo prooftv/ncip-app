@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css'; // Ensure this import exists
+import './globals.css';
 import ClientRoot from './ClientRoot';
 import { processPendingEmergencies } from '@lib/offline/emergencyQueue';
 import ServiceWorkerRegister from '@components/ServiceWorkerRegister';
+import BrowserSupportBanner from '@components/alerts/BrowserSupportBanner';
 
 // Initialize emergency queue processing
 if (typeof window !== 'undefined') {
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientRoot>
           <ServiceWorkerRegister />
+          <BrowserSupportBanner />
           {children}
         </ClientRoot>
       </body>
