@@ -1,3 +1,4 @@
+import styles from './dashboard.module.css';
 'use client'
 
 import { useAuth } from '@features/auth/context'
@@ -17,7 +18,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div style={{
+      <div className={styles.emergencyButton} style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
@@ -25,8 +26,8 @@ export default function DashboardPage() {
         background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)',
         fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
       }}>
-        <div style={{ textAlign: 'center', color: 'white' }}>
-          <div style={{
+        <div className={styles.emergencyButton} style={{ textAlign: 'center', color: 'white' }}>
+          <div className={styles.emergencyButton} style={{
             width: '64px',
             height: '64px',
             border: '4px solid white',
@@ -35,7 +36,7 @@ export default function DashboardPage() {
             margin: '0 auto',
             animation: 'spin 1s linear infinite'
           }}></div>
-          <p style={{ marginTop: '16px', fontSize: '18px' }}>Loading your dashboard...</p>
+          <p className={styles.emergencyButton} style={{ marginTop: '16px', fontSize: '18px' }}>Loading your dashboard...</p>
         </div>
         
         <style jsx>{`
@@ -49,41 +50,41 @@ export default function DashboardPage() {
   }
 
   if (!user) {
-    return null; // Already handled by useEffect redirect
+    return null;
   }
 
   return (
-    <div style={{
+    <div className={styles.emergencyButton} style={{
       minHeight: '100vh',
       backgroundColor: '#F8FAFC',
       fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
     }}>
       {/* Header */}
-      <header style={{
+      <header className={styles.emergencyButton} style={{
         background: 'linear-gradient(to right, #1a365d, #2c5282)',
         color: 'white',
         padding: '20px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
       }}>
-        <div style={{
+        <div className={styles.emergencyButton} style={{
           maxWidth: '1200px',
           margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{
+          <div className={styles.emergencyButton} style={{ display: 'flex', alignItems: 'center' }}>
+            <div className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               borderRadius: '50%',
               padding: '10px',
               marginRight: '15px'
             }}>
-              <FaChild style={{ color: '#1a365d', fontSize: '28px' }} />
+              <FaChild className={styles.emergencyButton} style={{ color: '#1a365d', fontSize: '28px' }} />
             </div>
-            <h1 style={{ fontSize: '24px', fontWeight: '600' }}>NCIP Dashboard</h1>
+            <h1 className={styles.emergencyButton} style={{ fontSize: '24px', fontWeight: '600' }}>NCIP Dashboard</h1>
           </div>
-          <button style={{
+          <button className={styles.emergencyButton} style={{
             backgroundColor: 'rgba(255, 255, 255, 0.2)',
             borderRadius: '50%',
             padding: '10px',
@@ -93,28 +94,27 @@ export default function DashboardPage() {
             alignItems: 'center',
             justifyContent: 'center',
             border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease'
+            className={styles.quickActionCard}
           }}>
-            <FaBell style={{ fontSize: '20px', color: 'white' }} />
+            <FaBell className={styles.emergencyButton} style={{ fontSize: '20px', color: 'white' }} />
           </button>
         </div>
       </header>
 
       {/* Welcome Banner */}
-      <div style={{
+      <div className={styles.emergencyButton} style={{
         backgroundColor: 'white',
         padding: '24px 20px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-            <FaUser style={{ 
+        <div className={styles.emergencyButton} style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div className={styles.emergencyButton} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+            <FaUser className={styles.emergencyButton} style={{ 
               fontSize: '20px', 
               color: '#4A5568',
               marginRight: '12px'
             }} />
-            <h2 style={{ 
+            <h2 className={styles.emergencyButton} style={{ 
               fontSize: '22px', 
               fontWeight: '700',
               color: '#2D3748'
@@ -122,7 +122,7 @@ export default function DashboardPage() {
               Welcome back, {user.email?.split('@')[0]}
             </h2>
           </div>
-          <p style={{ 
+          <p className={styles.emergencyButton} style={{ 
             color: '#718096',
             fontSize: '16px',
             marginLeft: '32px'
@@ -133,9 +133,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div style={{ padding: '24px 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h3 style={{
+      <div className={styles.emergencyButton} style={{ padding: '24px 20px' }}>
+        <div className={styles.emergencyButton} style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h3 className={styles.emergencyButton} style={{
             fontSize: '18px',
             fontWeight: '600',
             color: '#2D3748',
@@ -146,25 +146,20 @@ export default function DashboardPage() {
             Quick Actions
           </h3>
           
-          <div style={{
+          <div className={styles.emergencyButton} style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
             gap: '20px'
           }}>
             {/* Add Child */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              cursor: 'pointer',
-              ':hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
-              }
+              className={styles.quickActionCard}
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 backgroundColor: '#EBF8FF',
                 borderRadius: '50%',
                 width: '60px',
@@ -174,9 +169,9 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 margin: '0 auto 15px'
               }}>
-                <FaChild style={{ fontSize: '28px', color: '#3182CE' }} />
+                <FaChild className={styles.emergencyButton} style={{ fontSize: '28px', color: '#3182CE' }} />
               </div>
-              <h4 style={{
+              <h4 className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '16px',
                 fontWeight: '600',
@@ -185,7 +180,7 @@ export default function DashboardPage() {
               }}>
                 Add Child
               </h4>
-              <p style={{
+              <p className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '14px',
                 color: '#718096'
@@ -195,19 +190,14 @@ export default function DashboardPage() {
             </div>
             
             {/* Safe Zones */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              cursor: 'pointer',
-              ':hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
-              }
+              className={styles.quickActionCard}
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 backgroundColor: '#F0FFF4',
                 borderRadius: '50%',
                 width: '60px',
@@ -217,9 +207,9 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 margin: '0 auto 15px'
               }}>
-                <FaMapMarkerAlt style={{ fontSize: '28px', color: '#38A169' }} />
+                <FaMapMarkerAlt className={styles.emergencyButton} style={{ fontSize: '28px', color: '#38A169' }} />
               </div>
-              <h4 style={{
+              <h4 className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '16px',
                 fontWeight: '600',
@@ -228,7 +218,7 @@ export default function DashboardPage() {
               }}>
                 Safe Zones
               </h4>
-              <p style={{
+              <p className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '14px',
                 color: '#718096'
@@ -238,19 +228,14 @@ export default function DashboardPage() {
             </div>
             
             {/* Alerts */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              cursor: 'pointer',
-              ':hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
-              }
+              className={styles.quickActionCard}
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 backgroundColor: '#FFFAF0',
                 borderRadius: '50%',
                 width: '60px',
@@ -260,9 +245,9 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 margin: '0 auto 15px'
               }}>
-                <FaBell style={{ fontSize: '28px', color: '#DD6B20' }} />
+                <FaBell className={styles.emergencyButton} style={{ fontSize: '28px', color: '#DD6B20' }} />
               </div>
-              <h4 style={{
+              <h4 className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '16px',
                 fontWeight: '600',
@@ -271,7 +256,7 @@ export default function DashboardPage() {
               }}>
                 Alerts
               </h4>
-              <p style={{
+              <p className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '14px',
                 color: '#718096'
@@ -281,19 +266,14 @@ export default function DashboardPage() {
             </div>
             
             {/* Security */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               borderRadius: '16px',
               padding: '20px',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              cursor: 'pointer',
-              ':hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
-              }
+              className={styles.quickActionCard}
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 backgroundColor: '#FAF5FF',
                 borderRadius: '50%',
                 width: '60px',
@@ -303,9 +283,9 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 margin: '0 auto 15px'
               }}>
-                <FaShieldAlt style={{ fontSize: '28px', color: '#9F7AEA' }} />
+                <FaShieldAlt className={styles.emergencyButton} style={{ fontSize: '28px', color: '#9F7AEA' }} />
               </div>
-              <h4 style={{
+              <h4 className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '16px',
                 fontWeight: '600',
@@ -314,7 +294,7 @@ export default function DashboardPage() {
               }}>
                 Security
               </h4>
-              <p style={{
+              <p className={styles.emergencyButton} style={{
                 textAlign: 'center',
                 fontSize: '14px',
                 color: '#718096'
@@ -327,9 +307,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Your Children Section */}
-      <div style={{ padding: '24px 20px', backgroundColor: '#F8FAFC' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h3 style={{
+      <div className={styles.emergencyButton} style={{ padding: '24px 20px', backgroundColor: '#F8FAFC' }}>
+        <div className={styles.emergencyButton} style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h3 className={styles.emergencyButton} style={{
             fontSize: '18px',
             fontWeight: '600',
             color: '#2D3748',
@@ -340,20 +320,20 @@ export default function DashboardPage() {
             Your Children
           </h3>
           
-          <div style={{
+          <div className={styles.emergencyButton} style={{
             backgroundColor: 'white',
             borderRadius: '16px',
             overflow: 'hidden',
             boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)'
           }}>
             {/* Child 1 */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               padding: '20px',
               display: 'flex',
               alignItems: 'center',
               borderBottom: '1px solid #EDF2F7'
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 width: '64px',
                 height: '64px',
                 backgroundColor: '#EBF8FF',
@@ -363,10 +343,10 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 marginRight: '16px'
               }}>
-                <FaChild style={{ fontSize: '28px', color: '#3182CE' }} />
+                <FaChild className={styles.emergencyButton} style={{ fontSize: '28px', color: '#3182CE' }} />
               </div>
               <div>
-                <h4 style={{
+                <h4 className={styles.emergencyButton} style={{
                   fontSize: '18px',
                   fontWeight: '600',
                   color: '#2D3748',
@@ -374,7 +354,7 @@ export default function DashboardPage() {
                 }}>
                   Sarah Johnson
                 </h4>
-                <p style={{
+                <p className={styles.emergencyButton} style={{
                   fontSize: '14px',
                   color: '#718096'
                 }}>
@@ -384,13 +364,13 @@ export default function DashboardPage() {
             </div>
             
             {/* Child 2 */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               padding: '20px',
               display: 'flex',
               alignItems: 'center',
               borderBottom: '1px solid #EDF2F7'
             }}>
-              <div style={{
+              <div className={styles.emergencyButton} style={{
                 width: '64px',
                 height: '64px',
                 backgroundColor: '#EBF8FF',
@@ -400,10 +380,10 @@ export default function DashboardPage() {
                 justifyContent: 'center',
                 marginRight: '16px'
               }}>
-                <FaChild style={{ fontSize: '28px', color: '#3182CE' }} />
+                <FaChild className={styles.emergencyButton} style={{ fontSize: '28px', color: '#3182CE' }} />
               </div>
               <div>
-                <h4 style={{
+                <h4 className={styles.emergencyButton} style={{
                   fontSize: '18px',
                   fontWeight: '600',
                   color: '#2D3748',
@@ -411,7 +391,7 @@ export default function DashboardPage() {
                 }}>
                   Michael Johnson
                 </h4>
-                <p style={{
+                <p className={styles.emergencyButton} style={{
                   fontSize: '14px',
                   color: '#718096'
                 }}>
@@ -421,12 +401,12 @@ export default function DashboardPage() {
             </div>
             
             {/* Add Child Button */}
-            <div style={{
+            <div className={styles.emergencyButton} style={{
               padding: '20px',
               textAlign: 'center',
               backgroundColor: '#F8FAFC'
             }}>
-              <button style={{
+              <button className={styles.emergencyButton} style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 color: '#3182CE',
@@ -434,9 +414,9 @@ export default function DashboardPage() {
                 fontSize: '16px',
                 backgroundColor: 'transparent',
                 border: 'none',
-                cursor: 'pointer'
+                className={styles.quickActionCard}
               }}>
-                <FaPlus style={{ marginRight: '8px' }} />
+                <FaPlus className={styles.emergencyButton} style={{ marginRight: '8px' }} />
                 Add another child
               </button>
             </div>
@@ -445,9 +425,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Emergency Section */}
-      <div style={{ padding: '24px 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h3 style={{
+      <div className={styles.emergencyButton} style={{ padding: '24px 20px' }}>
+        <div className={styles.emergencyButton} style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h3 className={styles.emergencyButton} style={{
             fontSize: '18px',
             fontWeight: '600',
             color: '#2D3748',
@@ -458,28 +438,28 @@ export default function DashboardPage() {
             Emergency Actions
           </h3>
           
-          <div style={{
+          <div className={styles.emergencyButton} style={{
             background: 'linear-gradient(135deg, #E53E3E 0%, #C53030 100%)',
             borderRadius: '16px',
             padding: '24px',
             color: 'white',
             boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
           }}>
-            <h4 style={{
+            <h4 className={styles.emergencyButton} style={{
               fontSize: '20px',
               fontWeight: '700',
               marginBottom: '12px'
             }}>
               Report Missing Child
             </h4>
-            <p style={{
+            <p className={styles.emergencyButton} style={{
               fontSize: '16px',
               marginBottom: '24px',
               opacity: '0.9'
             }}>
               Immediately alert authorities and community members
             </p>
-            <button style={{
+            <button className={styles.emergencyButton} style={{
               backgroundColor: 'white',
               color: '#E53E3E',
               fontWeight: '700',
@@ -487,13 +467,8 @@ export default function DashboardPage() {
               padding: '16px 32px',
               borderRadius: '12px',
               border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-              ':hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.25)'
-              }
+              className={styles.quickActionCard},
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
             }}>
               Activate Emergency Alert
             </button>

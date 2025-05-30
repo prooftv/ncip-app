@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth, FirebaseError } from '@lib/firebase/config' // Updated import
+import { auth, FirebaseError } from '@lib/firebase/config'
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaChild } from 'react-icons/fa'
 
 export default function LoginPage() {
@@ -44,6 +44,9 @@ export default function LoginPage() {
           break
         case 'auth/wrong-password':
           setError('Incorrect password')
+          break
+        case 'auth/network-request-failed':
+          setError('Network error. Please check your internet connection and try again.')
           break
         case 'auth/configuration-not-found':
           setError('System configuration error. Please contact support.')
