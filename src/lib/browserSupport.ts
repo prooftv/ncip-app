@@ -1,25 +1,24 @@
 // Check if browser supports Firebase Messaging
-export const isMessagingSupported = () => {
+export function isMessagingSupported() {
   return (
     typeof window !== 'undefined' &&
     'serviceWorker' in navigator &&
-    'PushManager' in window &&
-    'indexedDB' in window
+    'PushManager' in window
   );
-};
+}
 
 // Check if browser supports all required features
-export const isBrowserSupported = () => {
+export function isBrowserSupported() {
   return (
     typeof window !== 'undefined' &&
     'serviceWorker' in navigator &&
     'indexedDB' in window &&
     'fetch' in window
   );
-};
+}
 
 // Get unsupported browser message
-export const getUnsupportedMessage = () => {
+export function getUnsupportedMessage() {
   if (typeof window === 'undefined') return '';
   
   const browser = {
@@ -34,4 +33,4 @@ export const getUnsupportedMessage = () => {
   if (browser.isSafari && browser.isMobile) return 'iOS Safari has limited support for notifications. Please use Chrome for iOS.';
   
   return 'Your browser does not support all required features. Please use Chrome, Firefox, or Edge.';
-};
+}

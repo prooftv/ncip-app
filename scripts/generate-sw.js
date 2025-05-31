@@ -1,32 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-// Read environment variables from .env.local
-require('dotenv').config({ path: path.resolve(__dirname, '../.env.local') });
-
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-};
-
-const swTemplate = `
+const serviceWorkerTemplate = `
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js');
 
-// Initialize Firebase
-firebase.initializeApp(${JSON.stringify(firebaseConfig, null, 2)});
+firebase.initializeApp({
+  apiKey: "${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}",
+  authDomain: "${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}",
+  projectId: "${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}",
+  storageBucket: "${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}",
+  messagingSenderId: "${process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID}",
+  appId: "${process.env.NEXT_PUBLIC_FIREBASE_APP_ID}"
+});
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log('[SW] Received background message', payload);
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.notification?.title || 'New Notification';
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload.notification?.body,
     icon: '/icon-192x192.png'
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
@@ -39,6 +34,9 @@ self.addEventListener('message', (event) => {
 });
 `;
 
-const swPath = path.join(__dirname, '../public/firebase-messaging-sw.js');
-fs.writeFileSync(swPath, swTemplate.trim());
+fs.writeFileSync(
+  path.join(__dirname, '../public/firebase-messaging-sw.js'),
+  serviceWorkerTemplate
+);
+
 console.log('Service worker generated with Firebase config');

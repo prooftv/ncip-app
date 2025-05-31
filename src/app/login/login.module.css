@@ -38,6 +38,14 @@
   font-size: 32px;
 }
 
+.subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+  text-align: center;
+  margin: 0 0 25px 0;
+}
+
 .content {
   padding: 30px;
 }
@@ -77,6 +85,7 @@
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -100,6 +109,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-top: 10px;
 }
 
 .button:hover {
@@ -116,6 +126,9 @@
   padding-top: 20px;
   color: #4a5568;
   font-size: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .link {
@@ -128,4 +141,24 @@
 .link:hover {
   color: #2b6cb0;
   text-decoration: underline;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+  color: white;
+  text-align: center;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { auth } from '@lib/firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@lib/firebase/config';
-import { isMessagingSupported } from '@lib/firebase/messaging';
+import { canUseMessaging } from '@lib/firebase/messaging';
 
 type AuthContextType = {
   user: User | null;
@@ -30,15 +30,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [messagingSupported, setMessagingSupported] = useState(true);
 
   useEffect(() => {
-    const checkMessagingSupport = async () => {
-      const supported = await isMessagingSupported();
-      setMessagingSupported(supported);
-    };
-
-    checkMessagingSupport();
+    setMessagingSupported(canUseMessaging());
     
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      // ... existing auth state handling ...
+      if (currentUser) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+          if (userDoc.exists()) {
+            setRole(userDoc.data().role);
+          } else {
+            setRole(null);
+          }
+          setUser(currentUser);
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          setUser(currentUser);
+          setRole(null);
+        }
+      } else {
+        setUser(null);
+        setRole(null);
+      }
+      setLoading(false);
     });
 
     return () => unsubscribe();

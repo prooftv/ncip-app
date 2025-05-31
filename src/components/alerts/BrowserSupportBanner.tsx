@@ -2,12 +2,16 @@
 
 import { isBrowserSupported, getUnsupportedMessage } from '@lib/browserSupport';
 import { FaExclamationTriangle, FaTimes } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function BrowserSupportBanner() {
   const [visible, setVisible] = useState(true);
-  const supported = isBrowserSupported();
-  
+  const [supported, setSupported] = useState(true);
+
+  useEffect(() => {
+    setSupported(isBrowserSupported());
+  }, []);
+
   if (!visible || supported) return null;
   
   return (

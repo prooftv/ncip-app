@@ -1,23 +1,23 @@
+
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js');
 
-// Initialize Firebase
 firebase.initializeApp({
-  "apiKey": "your-api-key",
-  "authDomain": "your-project.firebaseapp.com",
-  "projectId": "your-project-id",
-  "storageBucket": "your-bucket.appspot.com",
-  "messagingSenderId": "your-sender-id",
-  "appId": "your-app-id"
+  apiKey: "undefined",
+  authDomain: "undefined",
+  projectId: "undefined",
+  storageBucket: "undefined",
+  messagingSenderId: "undefined",
+  appId: "undefined"
 });
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log('[SW] Received background message', payload);
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.notification?.title || 'New Notification';
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload.notification?.body,
     icon: '/icon-192x192.png'
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
