@@ -2,7 +2,7 @@
 
 import { useAuth } from '@features/auth/context';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { FaChild, FaBell, FaMapMarkerAlt, FaShieldAlt, FaPlus, FaUser, FaExclamationTriangle } from 'react-icons/fa';
 import styles from './dashboard.module.css';
 import { db } from '@lib/firebase/config';
@@ -37,7 +37,19 @@ export default function DashboardPage() {
     };
   }, []);
 
-  const fetchChildren = useCallback(async () => {
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+    
+    if (user) {
+      setMessagingSupported(canUseMessaging());
+      requestNotificationPermission();
+      fetchChildren();
+    }
+  }, [user, loading, routerfetchChildren, requestNotificationPermission]);
+
+  const fetchChildren = async () => {
     if (!user) return;
     
     try {
@@ -52,9 +64,27 @@ export default function DashboardPage() {
         setChildren(JSON.parse(cachedChildren));
       }
     }
-  }, [user]);
+  };
 
-  const saveFCMToken = useCallback(async () => {
+  useEffect(() => {
+    if (children.length > 0) {
+      localStorage.setItem('cachedChildren', JSON.stringify(children));
+    }
+  }, [children]);
+
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log('Notification permission granted');
+        await saveFCMToken();
+      }
+    } catch (error) {
+      console.error('Failed to request notification permission:', error);
+    }
+  };
+
+  const saveFCMToken = async () => {
     if (!user || !messagingSupported) return;
     
     try {
@@ -81,40 +111,7 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Failed to save FCM token:', error);
     }
-  }, [user, messagingSupported]);
-
-  const requestNotificationPermission = useCallback(async () => {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('Notification permission granted');
-        await saveFCMToken();
-      }
-    } catch (error) {
-      console.error('Failed to request notification permission:', error);
-    }
-  }, [saveFCMToken]);
-
-  useEffect(() => {
-    setMessagingSupported(canUseMessaging());
-  }, []);
-
-  useEffect(() => {
-    if (children.length > 0) {
-      localStorage.setItem('cachedChildren', JSON.stringify(children));
-    }
-  }, [children]);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-    
-    if (user) {
-      requestNotificationPermission();
-      fetchChildren();
-    }
-  }, [user, loading, router, fetchChildren, requestNotificationPermission]);
+  };
 
   const handleEmergencyTest = async () => {
     if (!childId) {

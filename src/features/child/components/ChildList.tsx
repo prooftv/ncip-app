@@ -12,7 +12,7 @@ export default function ChildList() {
     if (user?.uid) {
       loadChildren();
     }
-  }, [user]);
+  }, [userloadChildren]);
 
   const loadChildren = async () => {
     const data = await getChildrenByGuardian(user!.uid);

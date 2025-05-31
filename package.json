@@ -9,7 +9,7 @@
     "prebuild": "node scripts/generate-sw.js",
     "dev": "next dev",
     "prebuild": "node scripts/generate-sw.js",
-    "build": "next build",
+    "build": "npm run generate-sw && next build",
     "start": "next start",
     "lint": "next lint"
   },

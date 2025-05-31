@@ -16,7 +16,7 @@ export default function RoleGuard({ allowedRoles, children }: {
     if (!loading && (!user || (role && !allowedRoles.includes(role)))) {
       router.push('/unauthorized');
     }
-  }, [user, role, loading]);
+  }, [user, role, loadingallowedRoles, router]);
 
   if (loading || !user || (role && !allowedRoles.includes(role))) {
     return (
