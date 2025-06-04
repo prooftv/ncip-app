@@ -3,10 +3,10 @@ export interface Child {
   name: string;
   age: number;
   guardianId: string;
-  schoolId: string;
-  lastSeen: {
+  schoolId?: string; // Make optional
+  lastSeen?: { // Make optional
     location: string;
-    timestamp: Date;
+    timestamp?: Date; // Make optional
   };
   photoURL?: string;
 }
