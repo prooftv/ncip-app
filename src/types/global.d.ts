@@ -1,4 +1,4 @@
-import { AuthContextType } from '@features/auth/context';
+import { AuthContextType } from '@features/auth/AuthProvider';
 
 declare global {
   namespace NodeJS {

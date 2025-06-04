@@ -1,116 +1,104 @@
-'use client'
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+import { useAuth } from '../AuthProvider';
 import { useRouter } from 'next/navigation';
-import { login } from '@features/auth/api/authService';
-import { useAuth } from '@features/auth/context';
 import Link from 'next/link';
-import { FaChild, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
-import styles from '@app/login/login.module.css';
 
 export default function LoginForm() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && user) {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
+  console.log('[LoginForm] Auth state:', { user, loading });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     setError('');
-    setIsLoggingIn(true);
-    
+
     try {
-      await login(email, password);
-    } catch (err) {
-      setError('Invalid email or password. Please try again.');
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (err: any) {
       console.error('Login error:', err);
+      setError(err.message || 'Failed to sign in. Please try again.');
     } finally {
-      setIsLoggingIn(false);
+      setIsLoading(false);
     }
   };
 
   if (loading) {
     return (
-      <div className={styles.loadingContainer}>
-        <FaSpinner className={styles.spinner} />
-        <p>Checking authentication...</p>
+      <div className="flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>
-            <FaChild className={styles.logoIcon} />
-            Child Safety Platform
-          </h1>
+    <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold text-center">Sign in to your account</h1>
+      
+      {error && (
+        <div className="p-3 text-red-700 bg-red-100 rounded-md">
+          {error}
         </div>
-        
-        <div className={styles.content}>
-          <h2 className={styles.subtitle}>Sign in to your account</h2>
-          
-          {error && (
-            <div className={styles.error}>
-              <FaExclamationTriangle className={styles.errorIcon} />
-              <span>{error}</span>
-            </div>
-          )}
-          
-          <form onSubmit={handleSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>Email</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-                required
-              />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label htmlFor="password" className={styles.label}>Password</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-                required
-              />
-            </div>
-            
-            <button 
-              type="submit" 
-              disabled={isLoggingIn}
-              className={styles.button}
-            >
-              {isLoggingIn ? (
-                <>
-                  <FaSpinner className={styles.spinner} />
-                  Signing in...
-                </>
-              ) : 'Sign In'}
-            </button>
-          </form>
-          
-          <div className={styles.footer}>
-            <Link href="/forgot-password" className={styles.link}>Forgot password?</Link>
-            <span> | </span>
-            <Link href="/register" className={styles.link}>Create account</Link>
-          </div>
+      )}
+
+      <form onSubmit={handleLogin} className="space-y-6">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
         </div>
+
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            {isLoading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </div>
+      </form>
+
+      <div className="text-center text-sm">
+        <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+          Create new account
+        </Link>
       </div>
     </div>
   );

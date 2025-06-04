@@ -1,0 +1,30 @@
+import { auth, db } from './config';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
+export const createUserDocument = async (user: any) => {
+  if (!user) return;
+  
+  const userRef = doc(db, 'users', user.uid);
+  const userDoc = await getDoc(userRef);
+  
+  if (!userDoc.exists()) {
+    await setDoc(userRef, {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || '',
+      role: 'parent',
+      createdAt: new Date(),
+      lastLogin: new Date(),
+    });
+    console.log(`User document created for ${user.email}`);
+  }
+};
+
+// Listen for auth state changes
+if (typeof window !== 'undefined') {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      await createUserDocument(user);
+    }
+  });
+}

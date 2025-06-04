@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@features/auth/context';
+import { useAuth } from '@features/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaChild, FaBell, FaMapMarkerAlt, FaShieldAlt, FaPlus, FaUser, FaExclamationTriangle } from 'react-icons/fa';

@@ -1,23 +1,24 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getChildrenByGuardian } from '@features/child/api/childService';
-import { useAuth } from '@features/auth/context';
+import { useAuth } from '@features/auth/AuthProvider';
 import { Child } from '@models/Child';
 
 export default function ChildList() {
   const { user } = useAuth();
   const [children, setChildren] = useState<Child[]>([]);
 
+  const loadChildren = useCallback(async () => {
+    if (!user?.uid) return;
+    const data = await getChildrenByGuardian(user.uid);
+    setChildren(data);
+  }, [user?.uid]);
+
   useEffect(() => {
     if (user?.uid) {
       loadChildren();
     }
-  }, [userloadChildren]);
-
-  const loadChildren = async () => {
-    const data = await getChildrenByGuardian(user!.uid);
-    setChildren(data);
-  };
+  }, [user?.uid, loadChildren]);
 
   return (
     <div>

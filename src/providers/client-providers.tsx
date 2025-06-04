@@ -1,6 +1,6 @@
 'use client'
 
-import { AuthProvider } from '@features/auth/context'
+import { AuthProvider } from '@features/auth/AuthProvider'
 import { OfflineProvider } from '@lib/storage/OfflineProvider'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'

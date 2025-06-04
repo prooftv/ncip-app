@@ -34,8 +34,13 @@ self.addEventListener('message', (event) => {
 });
 `;
 
+const publicDir = path.join(__dirname, '../public');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+
 fs.writeFileSync(
-  path.join(__dirname, '../public/firebase-messaging-sw.js'),
+  path.join(publicDir, 'firebase-messaging-sw.js'),
   serviceWorkerTemplate
 );
 

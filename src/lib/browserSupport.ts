@@ -21,11 +21,12 @@ export function isBrowserSupported() {
 export function getUnsupportedMessage() {
   if (typeof window === 'undefined') return '';
   
+  const userAgent = navigator.userAgent;
   const browser = {
-    isIE: !!window.MSInputMethodContext && !!document.documentMode,
-    isEdge: /Edge/.test(navigator.userAgent),
-    isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
-    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    isIE: /MSIE|Trident/.test(userAgent),
+    isEdge: /Edg/.test(userAgent),
+    isSafari: /^((?!chrome|android).)*safari/i.test(userAgent),
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
   };
 
   if (browser.isIE) return 'Internet Explorer is not supported. Please use Chrome, Firefox, or Edge.';

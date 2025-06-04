@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import { addChild } from '@features/child/api/childService';
-import { useAuth } from '@features/auth/context';
+import { useAuth } from '@features/auth/AuthProvider';
 
 export default function AddChildForm() {
   const { user } = useAuth();
