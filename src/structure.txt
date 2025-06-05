@@ -28,6 +28,7 @@
 │   └── unauthorized
 │       └── page.tsx
 ├── components
+│   ├── DebugAuth.tsx
 │   ├── ServiceWorkerRegister.tsx
 │   └── alerts
 │       └── BrowserSupportBanner.tsx
@@ -84,14 +85,14 @@
 │   └── _document.tsx
 ├── providers
 │   └── client-providers.tsx
+├── structure.txt
 ├── styles
 ├── tests
 │   ├── example.test.tsx
 │   └── setup.ts
-├── tree.txt
 ├── types
 │   ├── global.d.ts
 │   └── idb-keyval.d.ts
 └── utils
 
-43 directories, 51 files
+43 directories, 52 files
